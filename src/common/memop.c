@@ -61,7 +61,7 @@ void memset(opaque_mutptr dest, byte value, size_t count)
   size_t qword_count = count / 8;
   size_t byte_count = count % 8;
 
-  const u32 VALUEx4 = (value) | (value << 8) | (value << 16) | (value << 24);
+  const u64 VALUEx4 = (value) | (value << 8) | (value << 16) | (value << 24);
   const u64 VALUEx8 = (VALUEx4) | (VALUEx4 << 32);
   while (qword_count != 0)
   {
