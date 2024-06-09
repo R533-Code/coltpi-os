@@ -1,7 +1,10 @@
 rwildcard=$(foreach d,$(wildcard $(1:=/*)),$(call rwildcard,$d,$2) $(filter $(subst *,%,$2),$d))
 
 ARMGNU ?= aarch64-linux-gnu
-COPS = -O3 -Wall -nostdlib -nostartfiles -ffreestanding -Iinclude -Isrc -mgeneral-regs-only
+COPS = -O3  -Wall
+COPS += -nostdlib -nostartfiles -ffreestanding
+COPS += -Iinclude -Isrc
+COPS += -mgeneral-regs-only -mno-outline-atomics
 ASMOPS = -Iinclude 
 
 BUILD_DIR = build
