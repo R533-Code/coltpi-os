@@ -15,6 +15,12 @@
 /// @brief Assertion that happens at compile time
 #define static_assert(boolean, message) _Static_assert(boolean, message)
 
+#ifdef COLTPI_DEBUG
+  #define COLTPI_CONFIG "Debug"
+#else
+  #define COLTPI_CONFIG "Release"
+#endif
+
 /// @brief Necessary macro for CONCAT
 #define __DETAILS__CONCAT(a, b) a##b
 /// @brief Concatenate two identifiers
