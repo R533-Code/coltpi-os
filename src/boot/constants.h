@@ -12,47 +12,53 @@
 
 #ifdef __ASSEMBLER__
     // The Block Starting Symbol start, defined by the linker
-    .extern __clt_bss_start // void*
+    .global __clt_bss_start // void*
     // The Block Starting Symbol end, defined by the linker
-    .extern __clt_bss_end   // void*
-    // The Block Starting Symbol size, defined by the linker
-    .extern __clt_bss_size  // u32
+    .global __clt_bss_end   // void*
 
     // The Read Only Data start, defined by the linker
-    .extern __clt_rodata_start // void*
+    .global __clt_rodata_start // void*
     // The Read Only Data end, defined by the linker
-    .extern __clt_rodata_end   // void*
-    // The Read Only Data size, defined by the linker
-    .extern __clt_rodata_size  // u32
+    .global __clt_rodata_end   // void*
 
     // The Text start, defined by the linker
-    .extern __clt_text_start // void*
+    .global __clt_text_start // void*
     // The Text end, defined by the linker
-    .extern __clt_text_end   // void*
-    // The Text size, defined by the linker
-    .extern __clt_text_size  // u32
+    .global __clt_text_end   // void*
 #else
     #include "common/typedef.h"
-    
+    /// @brief LINKER DECLARATION FLAG
+    /// @warning Do not use! Use clt_bss_start instead.
+    extern char __clt_bss_start[];
     /// @brief Pointer to the start of the .bss section (aligned to 16 byte boundary)
-    extern byte* __clt_bss_start;
+    static const byte* const clt_bss_start = (const byte* const)&__clt_bss_start;
+    /// @brief LINKER DECLARATION FLAG
+    /// @warning Do not use! Use clt_bss_end instead.
+    extern char __clt_bss_end[];
     /// @brief Pointer to the end of the .bss section
-    extern byte* __clt_bss_end;
+    static const byte* const clt_bss_end = (const byte* const)&__clt_bss_end;
+    
+    /// @brief LINKER DECLARATION FLAG
+    /// @warning Do not use! Use clt_rodata_start instead.
+    extern char __clt_rodata_start[];
     /// @brief Pointer to the start of the .rodata section (aligned to 16 byte boundary)
-    extern byte* __clt_rodata_start;
+    static const byte* const clt_rodata_start = (const byte* const)&__clt_rodata_start;
+    /// @brief LINKER DECLARATION FLAG
+    /// @warning Do not use! Use clt_rodata_end instead.
+    extern char __clt_rodata_end[];
     /// @brief Pointer to the end of the .rodata section
-    extern byte* __clt_rodata_end;
+    static const byte* const clt_rodata_end = (const byte* const)&__clt_rodata_end;
+    
+    /// @brief LINKER DECLARATION FLAG
+    /// @warning Do not use! Use clt_text_start instead.
+    extern char __clt_text_start[];
     /// @brief Pointer to the start of the .text section (aligned to 16 byte boundary)
-    extern byte* __clt_text_start;
+    static const byte* const clt_text_start = (const byte* const)&__clt_text_start;
+    /// @brief LINKER DECLARATION FLAG
+    /// @warning Do not use! Use clt_text_end instead.
+    extern char __clt_text_end[];
     /// @brief Pointer to the end of the .text section
-    extern byte* __clt_text_end;
-
-    /// @brief The size of the .bss section
-    extern const u32 __clt_bss_size;
-    /// @brief The size of the .rodata section
-    extern const u32 __clt_rodata_size;
-    /// @brief The size of the .text section
-    extern const u32 __clt_text_size;
+    static const byte* const clt_text_end = (const byte* const)&__clt_text_end;
 #endif // !__ASSEMBLER__
 
 #endif // !HG_CONSTANTS
