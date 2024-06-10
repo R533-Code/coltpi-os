@@ -2,13 +2,15 @@ rwildcard=$(foreach d,$(wildcard $(1:=/*)),$(call rwildcard,$d,$2) $(filter $(su
 
 ARMGNU ?= aarch64-linux-gnu
 ARMDISASM ?= aarch64-linux-gnu-objdump
-COPS = -O3 -Wall -g
+COPS = -Wall -fPIC
 COPS += -nostdlib -nostartfiles -ffreestanding
-COPS += -Iinclude -Isrc
+COPS += -Isrc
 COPS += -mgeneral-regs-only -mno-outline-atomics
-ASMOPS = -Iinclude 
+COPS += $(if $(findstring release,$(CONFIG)),-O3,-g -Og -DCOLTPI_DEBUG)
+ASMOPS = -Isrc
 
-BUILD_DIR = build
+CONFIG ?= release
+BUILD_DIR = $(if $(findstring release,$(CONFIG)),build/release,build/debug)
 SRC_DIR = src
 
 C_FILES = $(call rwildcard,$(SRC_DIR),*.c)
@@ -24,7 +26,7 @@ clean:
 	@echo "Cleaning build directory..."
 	@rm -rf $(BUILD_DIR) *.img
 	@echo "Done cleaning build directory."
-	@echo ""
+	@echo ""	
 
 # Compile C files
 $(BUILD_DIR)/%_c.o: $(SRC_DIR)/%.c
@@ -48,18 +50,18 @@ DEP_FILES = $(OBJ_FILES:%.o=%.d)
 # Generate img from object files
 kernel8.img: $(SRC_DIR)/colt.ld $(OBJ_FILES)
 	@echo "Linking object files..."
-	@$(ARMGNU)-ld -T $(SRC_DIR)/colt.ld -o $(BUILD_DIR)/kernel8.elf  $(OBJ_FILES)
+	@$(ARMGNU)-ld -T $(SRC_DIR)/colt.ld -o $(BUILD_DIR)/kernel8.elf $(OBJ_FILES)
 	@echo "Extracting code..."
-	@$(ARMGNU)-objcopy $(BUILD_DIR)/kernel8.elf -O binary kernel8.img
+	@$(ARMGNU)-objcopy $(BUILD_DIR)/kernel8.elf -O binary $(BUILD_DIR)/kernel8.img
 	@echo "Done creating 'kernel8.img'!"
 	@echo ""
 
 resize: kernel8.img
-	$(eval CURRENT_SIZE = $(shell stat -c%s "kernel8.img"))
+	$(eval CURRENT_SIZE = $(shell stat -c%s "$(BUILD_DIR)/kernel8.img"))
 	$(eval NEXT_POWER_OF_TWO = $(shell python3 -c "import math;print(2**(math.ceil(math.log($(CURRENT_SIZE), 2))))"))
 	@echo "The current size of 'kernel8.img' is $(CURRENT_SIZE)."
 	@echo "Resizing 'kernel8.img' from $(CURRENT_SIZE) to $(NEXT_POWER_OF_TWO)..."
-	@qemu-img resize -fraw "kernel8.img" "$(NEXT_POWER_OF_TWO)"
+	@qemu-img resize -fraw "$(BUILD_DIR)/kernel8.img" "$(NEXT_POWER_OF_TWO)"
 	@echo ""
 
 qemu: resize
