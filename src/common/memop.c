@@ -51,6 +51,31 @@ void memset(opaque_mutptr dest, byte value, size_t count)
 {
   mutptr(byte) dest_b = (mutptr(byte))dest;
   
+  // Handle the 0 case differently
+  if (value == 0)
+  {
+    while ((uintptr)dest_b % 8 != 0)
+    {
+      *dest_b = 0;
+      dest_b++;
+      count--;
+    }
+    
+    size_t qword_count = count / 8;
+    size_t byte_count = count % 8;
+    while (qword_count != 0)
+    {
+      *(mutptr(u64))dest_b = 0;
+      dest_b += 8;
+      --qword_count;
+    }
+    while (byte_count != 0)
+    {
+      *dest_b++ = 0;
+      --byte_count;
+    }
+    return;
+  }  
   while ((uintptr)dest_b % 8 != 0)
   {
     *dest_b = value;
