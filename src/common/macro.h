@@ -25,6 +25,10 @@
 #define __DETAILS__CONCAT(a, b) a##b
 /// @brief Concatenate two identifiers
 #define CONCAT(a, b) __DETAILS__CONCAT(a,b)
+/// @brief Concatenate three identifiers
+#define CONCAT3(a, b, c) CONCAT(CONCAT(a, b), c)
+/// @brief Concatenate four identifiers
+#define CONCAT4(a, b, c, d) CONCAT(CONCAT3(a, b, c), d)
 
 /**************************************
  * UGLY CODE BELOW TO FOR FOR_EACHnARG
