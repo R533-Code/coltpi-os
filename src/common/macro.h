@@ -10,6 +10,11 @@
 /// @brief Warns if the return value of a function is unused
 #define NO_DISCARD   __attribute__ ((warn_unused_result))
 
+/// @brief Returns the byte offset of a member in a type
+#define offsetof(ty, member) __builtin_offsetof(ty, member)
+/// @brief Assertion that happens at compile time
+#define static_assert(boolean, message) _Static_assert(boolean, message)
+
 /// @brief Necessary macro for CONCAT
 #define __DETAILS__CONCAT(a, b) a##b
 /// @brief Concatenate two identifiers
