@@ -1,0 +1,3 @@
+#!/bin/bash
+echo "Configuration set to Release."
+make $1 CONFIG=release

@@ -1,0 +1,3 @@
+#!/bin/bash
+echo "Configuration set to Debug."
+make $1 CONFIG=debug
