@@ -2,7 +2,7 @@ rwildcard=$(foreach d,$(wildcard $(1:=/*)),$(call rwildcard,$d,$2) $(filter $(su
 
 ARMGNU ?= aarch64-linux-gnu
 ARMDISASM ?= aarch64-linux-gnu-objdump
-COPS = -O3  -Wall
+COPS = -O3 -Wall -g
 COPS += -nostdlib -nostartfiles -ffreestanding
 COPS += -Iinclude -Isrc
 COPS += -mgeneral-regs-only -mno-outline-atomics
@@ -53,6 +53,19 @@ kernel8.img: $(SRC_DIR)/colt.ld $(OBJ_FILES)
 	@$(ARMGNU)-objcopy $(BUILD_DIR)/kernel8.elf -O binary kernel8.img
 	@echo "Done creating 'kernel8.img'!"
 	@echo ""
+
+resize: kernel8.img
+	$(eval CURRENT_SIZE = $(shell stat -c%s "kernel8.img"))
+	$(eval NEXT_POWER_OF_TWO = $(shell python3 -c "import math;print(2**(math.ceil(math.log($(CURRENT_SIZE), 2))))"))
+	@echo "The current size of 'kernel8.img' is $(CURRENT_SIZE)."
+	@echo "Resizing 'kernel8.img' from $(CURRENT_SIZE) to $(NEXT_POWER_OF_TWO)..."
+	@qemu-img resize -fraw "kernel8.img" "$(NEXT_POWER_OF_TWO)"
+	@echo ""
+
+qemu: resize
+	@echo "Starting qemu..."
+	@qemu-system-aarch64 -s -S -machine virt -cpu cortex-a72 -smp 6 -m 4G -kernel $(BUILD_DIR)/kernel8.elf -append "root=/dev/vda2 rootfstype=ext4 rw panic=0 console=ttyAMA0" -drive format=raw,file=$(BUILD_DIR)/kernel8.elf,if=none,id=hd0,cache=writeback
+	@echo "Closed qemu!"
 
 disasm: kernel8.img
 	@echo "Disassembling kernel8.elf..."
