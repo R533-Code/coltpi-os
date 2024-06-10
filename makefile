@@ -1,6 +1,7 @@
 rwildcard=$(foreach d,$(wildcard $(1:=/*)),$(call rwildcard,$d,$2) $(filter $(subst *,%,$2),$d))
 
 ARMGNU ?= aarch64-linux-gnu
+ARMDISASM ?= aarch64-linux-gnu-objdump
 COPS = -O3  -Wall
 COPS += -nostdlib -nostartfiles -ffreestanding
 COPS += -Iinclude -Isrc
@@ -52,3 +53,7 @@ kernel8.img: $(SRC_DIR)/colt.ld $(OBJ_FILES)
 	@$(ARMGNU)-objcopy $(BUILD_DIR)/kernel8.elf -O binary kernel8.img
 	@echo "Done creating 'kernel8.img'!"
 	@echo ""
+
+disasm: kernel8.img
+	@echo "Disassembling kernel8.elf..."
+	@$(ARMDISASM) -d -f $(BUILD_DIR)/kernel8.elf
