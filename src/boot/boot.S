@@ -17,7 +17,8 @@ _main:
   // Call memset to zero out the .bss section
   ldr     x0, __clt_bss_start
   mov     x1, xzr
-  ldr     x2, __clt_bss_size
+  ldr     x2, __clt_bss_end
+  sub     x2, x2, x0
   bl      memset
   
   mov     sp, #LOW_MEMORY
