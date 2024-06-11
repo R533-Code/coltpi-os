@@ -1,5 +1,5 @@
-#ifndef HG_MACRO
-#define HG_MACRO
+#ifndef __HG_MACRO
+#define __HG_MACRO
 
 /// @brief Forces inlining of a function
 #define FORCE_INLINE __attribute__((always_inline)) inline
@@ -90,4 +90,4 @@
 #define FOR_EACH_2ARG(macro, arg1, arg2, ...) \
   __VA_OPT__(__DETAILS__EXPAND(__DETAILS__FOR_EACH_HELPER_2ARG(macro, arg1, arg2, __VA_ARGS__)))
 
-#endif // !HG_MACRO
+#endif // !__HG_MACRO

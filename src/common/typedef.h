@@ -1,5 +1,5 @@
-#ifndef HG_TYPEDEF
-#define HG_TYPEDEF
+#ifndef __HG_TYPEDEF
+#define __HG_TYPEDEF
 
 /// @brief Boolean (Either true or false)
 typedef _Bool               bool;
@@ -57,4 +57,4 @@ typedef double              f64;
 /// @brief Pointer of type 'void*' (mutable)
 #define opaque_mutptr       void*
 
-#endif // !HG_TYPEDEF
+#endif // !__HG_TYPEDEF

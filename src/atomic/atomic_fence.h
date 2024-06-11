@@ -1,5 +1,5 @@
-#ifndef HG_ATOMIC_FENCE
-#define HG_ATOMIC_FENCE
+#ifndef __HG_ATOMIC_FENCE
+#define __HG_ATOMIC_FENCE
 
 #include "common/macro.h"
 
@@ -62,4 +62,4 @@ void atomic_signal_fence(MemoryOrdering order)
   __atomic_signal_fence(order);
 }
 
-#endif // !HG_ATOMIC_FENCE
+#endif // !__HG_ATOMIC_FENCE

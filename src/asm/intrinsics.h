@@ -1,5 +1,5 @@
-#ifndef HG_INSTRINSICS
-#define HG_INSTRINSICS
+#ifndef __HG_INTRINSICS
+#define __HG_INTRINSICS
 
 #include "common/macro.h"
 
@@ -25,4 +25,4 @@ void intrinsic_wakeall()
   asm ("sev");
 }
 
-#endif // !HG_INSTRINSICS
+#endif // !__HG_INTRINSICS

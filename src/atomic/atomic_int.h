@@ -1,5 +1,5 @@
-#ifndef HG_ATOMIC_INT
-#define HG_ATOMIC_INT
+#ifndef __HG_ATOMIC_INT
+#define __HG_ATOMIC_INT
 
 #include "atomic/atomic_fence.h"
 #include "common/typedef.h"
@@ -74,4 +74,4 @@ CREATE_ATOMIC_INT(i16);
 CREATE_ATOMIC_INT(i32);
 CREATE_ATOMIC_INT(i64);
 
-#endif // !HG_ATOMIC_INT
+#endif // !__HG_ATOMIC_INT

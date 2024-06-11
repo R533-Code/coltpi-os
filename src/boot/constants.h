@@ -1,5 +1,5 @@
-#ifndef HG_CONSTANTS
-#define HG_CONSTANTS
+#ifndef __HG_CONSTANTS
+#define __HG_CONSTANTS
 
 #define PAGE_SHIFT	 		    12
 #define TABLE_SHIFT 			9
@@ -61,4 +61,4 @@
     static const byte* const clt_text_end = (const byte* const)&__clt_text_end;
 #endif // !__ASSEMBLER__
 
-#endif // !HG_CONSTANTS
+#endif // !__HG_CONSTANTS

@@ -1,5 +1,5 @@
-#ifndef HG_ATOMIC_FLAG
-#define HG_ATOMIC_FLAG
+#ifndef __HG_ATOMIC_FLAG
+#define __HG_ATOMIC_FLAG
 
 #include "common/typedef.h"
 #include "atomic_fence.h"
@@ -51,4 +51,4 @@ bool atomic_flag_test(ptr(atomic_flag) flag, MemoryOrdering order)
   return __atomic_load_n(&flag->_flag, order) != 0;
 }
 
-#endif //!HG_ATOMIC_FLAG
+#endif //!__HG_ATOMIC_FLAG

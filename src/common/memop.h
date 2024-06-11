@@ -1,5 +1,5 @@
-#ifndef HG_MEMOP
-#define HG_MEMOP
+#ifndef __HG_MEMOP
+#define __HG_MEMOP
 
 #include "common/typedef.h"
 
@@ -16,4 +16,4 @@ void memcpy(opaque_mutptr dest, opaque_ptr src, size_t count);
 /// @param count The count of bytes
 void memset(opaque_mutptr dest, byte value, size_t count);
 
-#endif // !HG_MEMOP
+#endif // !__HG_MEMOP
