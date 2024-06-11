@@ -39,6 +39,11 @@
 /// @brief Concatenate four identifiers
 #define CONCAT4(a, b, c, d) CONCAT(CONCAT3(a, b, c), d)
 
+/// @brief Necessary macro for STRINGIZE
+#define __DETAILS__STRINGIZE(a) #a
+/// @brief Stringizes a value
+#define STRINGIZE(a) __DETAILS__STRINGIZE(a)
+
 /**************************************
  * UGLY CODE BELOW TO FOR FOR_EACHnARG
  **************************************/
