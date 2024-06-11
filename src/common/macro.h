@@ -5,10 +5,19 @@
 #define FORCE_INLINE __attribute__((always_inline)) inline
 /// @brief Forces never inlining of a function
 #define NEVER_INLINE __attribute__((noinline))
-/// @brief Marks a variable as used
-#define USED_VAR     __attribute__((__used__))
+/// @brief Marks a function as never returning
+#define NO_RETURN     __attribute__((noreturn))
 /// @brief Warns if the return value of a function is unused
 #define NO_DISCARD   __attribute__ ((warn_unused_result))
+
+/// @brief Marks a function or variable as deprecated
+#define DEPRECATED(msg)  __attribute__ ((deprecated(msg)))
+
+/// @brief Marks a pointer as restrict
+#define RESTRICT __restrict__ 
+
+/// @brief Marks a variable as used
+#define USED_VAR     __attribute__((__used__))
 
 /// @brief Returns the byte offset of a member in a type
 #define offsetof(ty, member) __builtin_offsetof(ty, member)
