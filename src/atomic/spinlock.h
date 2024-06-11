@@ -31,10 +31,18 @@ void spinlock_init(mutptr(spinlock) lock)
 /// @param lock The lock to acquire
 void spinlock_lock(mutptr(spinlock) lock)
 {
-  while (atomic_flag_test_and_set(&lock->_flag, ORDER_RELAXED))
+  while (atomic_flag_test_and_set(&lock->_flag, ORDER_ACQUIRE))
     while (atomic_flag_test(&lock->_flag, ORDER_RELAXED))
-      intrinsic_pause();      
-  atomic_thread_fence(ORDER_ACQUIRE);  
+      intrinsic_pause();
+  // We could also make the atomic_flag_test_and_set relaxed
+  // and have an acquire barrier here.
+  // But this would mean that when there is no contention,
+  // we perform a relaxed test and set followed by an acquire fence.
+  // In this case, we only perform an acquire test and set,
+  // which when there is no contention is simply a
+  // acquire test and set.
+  // As generally spinlocks are used for when there is no contention
+  // we optimize for the most likely case of having no contention.
 }
 
 FORCE_INLINE NO_DISCARD
