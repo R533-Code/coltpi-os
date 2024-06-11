@@ -2,13 +2,14 @@
 #define __HG_MEMOP
 
 #include "common/typedef.h"
+#include "common/macro.h"
 
 /// @brief Copies 'count' bytes from 'src' to 'dest'
 /// @warning 'src' and 'dest' must not overlap.
 /// @param dest The destination bytes
 /// @param src The source bytes
 /// @param count The count of bytes
-void memcpy(opaque_mutptr dest, opaque_ptr src, size_t count);
+void memcpy(opaque_mutptr RESTRICT dest, opaque_ptr RESTRICT src, size_t count);
 
 /// @brief Sets 'count' bytes in 'dest' to 'value'
 /// @param dest The destination bytes

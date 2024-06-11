@@ -23,7 +23,7 @@ do { \
   } \
 } while (0)
 
-void memcpy(opaque_mutptr dest, opaque_ptr src, size_t count)
+void memcpy(opaque_mutptr RESTRICT dest, opaque_ptr RESTRICT src, size_t count)
 {
   mutptr(byte) dest_b = (mutptr(byte))dest;
   ptr(byte) src_b = (ptr(byte))src;
