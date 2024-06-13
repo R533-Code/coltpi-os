@@ -2,6 +2,7 @@
 #define __HG_INTRINSICS
 
 #include "common/macro.h"
+#include "common/typedef.h"
 
 FORCE_INLINE
 /// @brief Expands to a 'wfe' instruction.
@@ -29,6 +30,27 @@ void intrinsic_wakeall()
 void intrinsic_und()
 {
   asm volatile (".inst 0xe7f001f0");
+}
+
+typedef struct
+{
+  bool genuine;
+  u64 value;
+} hw_random_t;
+
+FORCE_INLINE NO_DISCARD
+hw_random_t intrinsic_rand()
+{
+  hw_random_t ret;
+  u8 value;
+  asm (
+    "mrs %1, RNDR"
+    "mrs %2, PSTATE.NZCV"
+    : "=r" (ret.value)
+    : "=r" (ret.genuine)    
+  );
+  ret.genuine = (value == 0);
+  return ret;
 }
 
 #define __ASM_BLOCK(value) asm (value)
