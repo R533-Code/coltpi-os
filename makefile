@@ -5,7 +5,7 @@ ARMDISASM ?= aarch64-linux-gnu-objdump
 COPS = -Wall -fPIC
 COPS += -nostdlib -nostartfiles -ffreestanding
 COPS += -Isrc
-COPS += -mgeneral-regs-only -mno-outline-atomics
+COPS += -mno-outline-atomics
 COPS += $(if $(findstring release,$(CONFIG)),-O3,-g -Og -DCOLTPI_DEBUG)
 ASMOPS = -Isrc
 
