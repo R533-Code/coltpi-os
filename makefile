@@ -2,7 +2,7 @@ rwildcard=$(foreach d,$(wildcard $(1:=/*)),$(call rwildcard,$d,$2) $(filter $(su
 
 ARMGNU ?= aarch64-linux-gnu
 ARMDISASM ?= aarch64-linux-gnu-objdump
-COPS = -Wall -fPIC
+COPS = -Wall -fPIC -march=armv8.2-a
 COPS += -nostdlib -nostartfiles -ffreestanding
 COPS += -Isrc
 COPS += -mno-outline-atomics
