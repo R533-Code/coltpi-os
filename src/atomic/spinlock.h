@@ -2,7 +2,7 @@
 #define __HG_SPINLOCK
 
 #include "atomic/atomic_flag.h"
-#include "asm/intrinsics.h"
+#include "common/intrinsics.h"
 
 /// @brief Represents a spinlock.
 /// A spinlock is the simplest mutex:
@@ -15,12 +15,12 @@
 typedef struct
 {
   atomic_flag _flag;
-} spinlock;
+} spinlock_t;
 
 FORCE_INLINE
 /// @brief Initializes the lock to a non-owned state
 /// @param lock The lock to initialize
-void spinlock_init(mutptr(spinlock) lock)
+void spinlock_init(mutptr(spinlock_t) lock)
 {
   atomic_flag_init(&lock->_flag);
 }
@@ -29,7 +29,7 @@ void spinlock_init(mutptr(spinlock) lock)
 /// If another thread already owns the mutex, then
 /// this thread will spin till the mutex is released.
 /// @param lock The lock to acquire
-void spinlock_lock(mutptr(spinlock) lock)
+void spinlock_lock(mutptr(spinlock_t) lock)
 {
   while (atomic_flag_test_and_set(&lock->_flag, ORDER_ACQUIRE))
     while (atomic_flag_test(&lock->_flag, ORDER_RELAXED))
@@ -51,7 +51,7 @@ FORCE_INLINE NO_DISCARD
 /// @param lock The lock to try to acquire
 /// @return True if the current thread acquired the mutex, false
 ///         if the mutex was already locked.
-bool spinlock_try_lock(mutptr(spinlock) lock)
+bool spinlock_try_lock(mutptr(spinlock_t) lock)
 {
   return !atomic_flag_test_and_set(&lock->_flag, ORDER_ACQUIRE);
 }
@@ -59,7 +59,7 @@ bool spinlock_try_lock(mutptr(spinlock) lock)
 FORCE_INLINE
 /// @brief Unlocks the mutex
 /// @param lock The mutex to release
-void spinlock_unlock(mutptr(spinlock) lock)
+void spinlock_unlock(mutptr(spinlock_t) lock)
 {
   atomic_flag_clear(&lock->_flag, ORDER_RELEASE);
   intrinsic_wakeall();

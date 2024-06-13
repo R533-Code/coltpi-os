@@ -2,7 +2,7 @@
 #define __HG_ASSERT
 
 #include "common/macro.h"
-#include "asm/intrinsics.h"
+#include "common/intrinsics.h"
  
 #ifndef COLTPI_DEBUG
   /// @brief Check if all conditions evaluates to true, else tries
